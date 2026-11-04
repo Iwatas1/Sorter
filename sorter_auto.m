@@ -1,15 +1,15 @@
 warning('off', 'all')
-file_path = 'PATH/REDACTED';
+file_path = 'PATH/TO/AUTO_SORTING'; % local folder with the raw HowRU export (do not commit real path)
 file_names = {dir(file_path).name};
 raw_data_file_name = file_names(contains(file_names,"Dataset_","IgnoreCase",true));
 raw_data_file_name = raw_data_file_name{1};
-old_T = readtable(append(file_path,'\',raw_data_file_name));
+old_T = readtable(fullfile(file_path,raw_data_file_name));
 first = true;
 while true 
     file_names = {dir(file_path).name};
     raw_data_file_name = file_names(contains(file_names,"Dataset_","IgnoreCase",true));
     raw_data_file_name = raw_data_file_name{1};
-    current_T = readtable(append(file_path,'\',raw_data_file_name));
+    current_T = readtable(fullfile(file_path,raw_data_file_name));
     if height(old_T) < height(current_T) || first == true
         copy_T = old_T;
         old_T = current_T;
@@ -214,7 +214,7 @@ end
 function y = exporting(cell,file_path)
 names = ["EMA_morning","EMA_evening","PSS","forget_evening","forget_morning","VGE","GAD_7","CES_D","PDS","PSPQ","ASWS","ISO","ISC","SRCF","CSB","CASS","EMA","SMQ","UK_1","UK_2","UK_3","UK_4","UK_5","UK_6"];
 for i = 1:width(cell)
-    writetable(cell{i},append(file_path,'\output\',names(i),".csv"));
+    writetable(cell{i},fullfile(file_path,'output',append(names(i),".csv")));
 end
 y = "done exproting";
 end
